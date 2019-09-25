@@ -19,41 +19,52 @@ def round_robin(cont, servers):
 #$ kill 81211
 serverName = 'localhost'
 clientPort = 12000
+
 # lista de portas dos servidores
 servers = [12001, 12002, 12003]
 cont = 0
+
 # socket que faz a conexão com algum cliente (funciona como um servidor)
 app_client_Socket = socket(AF_INET,SOCK_STREAM)
 app_client_Socket.bind(('',clientPort))
 app_client_Socket.listen(1)
 print('O app está pronto para receber')
+
 while 1:
 	print('Ouvindo...')
+
 	# aceita conexão de um cliente
 	connectionSocket, addr = app_client_Socket.accept()
 	print('Endereço do cliente: ', addr)
+
 	# recebe mensagem do cliente
 	sentence = connectionSocket.recv(1024)
 	print('Mensagem recebida do cliente: ', sentence)
-
+	
 	print('Encaminhando para o servidor')
+
 	# seleciona o servidor de acordo com a função round robin
 	cont, serverPort = round_robin(cont, servers)
+
 	# cria socket para se comunicar com o servidor (funciona como um cliente)
 	app_server_Socket = socket(AF_INET, SOCK_STREAM)
 	app_server_Socket.connect((serverName,serverPort))
+
 	# envia mensagem para o servidor
 	app_server_Socket.send(sentence)
 
 	#recebe mensagem do servidor
 	modifiedSentence = app_server_Socket.recv(1024)
 	print('Mensagem recebida do servidor')
+
 	# encerra conexão com o servidor
 	app_server_Socket.close()
 	print('Conexão com o servidor encerrada')
 	print('Enviando mensagem para o cliente')
+
 	# envia mensagem para o cliente
 	connectionSocket.send(modifiedSentence)
+	
 	# encerra conexão com um cliente
 	connectionSocket.close()
 	print('Conexão com o cliente encerrada')
