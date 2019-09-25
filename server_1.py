@@ -1,10 +1,10 @@
 from socket import *
-serverPort = 12001
+serverPort = 12002
 # cria socket do servidor
 serverSocket = socket(AF_INET,SOCK_STREAM)
 serverSocket.bind(('',serverPort))
 serverSocket.listen(1)
-print('O servidor 0 está pronto para ouvir')
+print('O servidor 1 está pronto para ouvir')
 while 1:
 	print('Ouvindo...')
 	# socket do servidor aceita conexão do balanceador
