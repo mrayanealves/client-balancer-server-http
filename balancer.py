@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from socket import *
+import time
 
 
 def round_robin(cont, servers):
@@ -35,13 +38,13 @@ while 1:
 	# aceita conexão de um cliente
 	connectionSocket, addr = app_client_Socket.accept()
 	print('Endereço do cliente: ', addr)
-
+	time.sleep(2)
 	# recebe mensagem do cliente
 	sentence = connectionSocket.recv(1024)
 	print('Mensagem recebida do cliente: ', sentence.decode())
-	
+	time.sleep(2)
 	print('Encaminhando para o servidor')
-
+	time.sleep(2)
 	# seleciona o servidor de acordo com a função round robin
 	cont, serverPort = round_robin(cont, servers)
 
@@ -60,12 +63,13 @@ while 1:
 			break
 
 	print('Dados recebidos do servidor')
-
+	time.sleep(2)
 	# encerra conexão com o servidor
 	app_server_Socket.close()
 	print('Conexão com o servidor encerrada')
+	time.sleep(2)
 	print('Enviando mensagem para o cliente')
-
+	time.sleep(2)
 	# envia mensagem para o cliente
 	connectionSocket.send(data.encode())
 	

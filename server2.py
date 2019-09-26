@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from socket import *
 import os.path
 import datetime, time
@@ -40,6 +42,7 @@ while True:
     #socket servidor aceita conexao com balanceador
     connectionSocket, addr = serverSocket.accept()
     print('Conectado ao balanceador:', addr)
+    time.sleep(2)
 
     res = ""
 
@@ -47,11 +50,12 @@ while True:
     t1 = datetime.datetime.now(datetime.timezone.utc)
     date = t1.strftime("%a, %d %b %Y %H:%M:%S %Z")
     print('Data: ', date)
+    time.sleep(2)
 
     #read bytes from socket
     data = connectionSocket.recv(dataLen).decode()
-    print("data from client: \n" + data)
-
+    print("Dados do cliente: \n" + data)
+    time.sleep(2)
     # get the absolute path of the directory
     directory = os.getcwd()
 
@@ -96,6 +100,7 @@ while True:
         res += "HTTP/1.1 304 Not Modified\r\n"+"Date: " + date + "\r\n\r\n"
 
     print("Enviando resposta ao balanceador")
+    time.sleep(2)
     connectionSocket.send(res.encode())
     connectionSocket.close()
     print('Conexão fechada')
