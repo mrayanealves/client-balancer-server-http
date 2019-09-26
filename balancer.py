@@ -28,10 +28,9 @@ cont = 0
 app_client_Socket = socket(AF_INET,SOCK_STREAM)
 app_client_Socket.bind(('',clientPort))
 app_client_Socket.listen(1)
-print('O app está pronto para receber')
 
 while 1:
-	print('Ouvindo...')
+	print('O balanceador de carga está ouvindo')
 
 	# aceita conexão de um cliente
 	connectionSocket, addr = app_client_Socket.accept()
@@ -39,7 +38,7 @@ while 1:
 
 	# recebe mensagem do cliente
 	sentence = connectionSocket.recv(1024)
-	print('Mensagem recebida do cliente: ', sentence)
+	print('Mensagem recebida do cliente: ', sentence.decode())
 	
 	print('Encaminhando para o servidor')
 
@@ -60,7 +59,7 @@ while 1:
 		if (len(newData) == 0):
 			break
 
-	print(data)
+	print('Dados recebidos do servidor')
 
 	# encerra conexão com o servidor
 	app_server_Socket.close()
