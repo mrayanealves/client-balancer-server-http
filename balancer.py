@@ -53,9 +53,14 @@ while 1:
 	# envia mensagem para o servidor
 	app_server_Socket.send(sentence)
 
-	#recebe mensagem do servidor
-	modifiedSentence = app_server_Socket.recv(1024)
-	print('Mensagem recebida do servidor')
+	data = ""
+	while True:
+		newData = app_server_Socket.recv(1024).decode()
+		data += newData
+		if (len(newData) == 0):
+			break
+
+	print(data)
 
 	# encerra conexão com o servidor
 	app_server_Socket.close()
@@ -63,7 +68,7 @@ while 1:
 	print('Enviando mensagem para o cliente')
 
 	# envia mensagem para o cliente
-	connectionSocket.send(modifiedSentence)
+	connectionSocket.send(data.encode())
 	
 	# encerra conexão com um cliente
 	connectionSocket.close()

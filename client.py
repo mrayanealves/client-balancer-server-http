@@ -6,16 +6,16 @@ clientSocket = socket(AF_INET, SOCK_STREAM)
 dataLen = 1000000
 
 def request():
-    httpGet = "GET / HTTP/1.1\r\nHost: " + str(serverName) + ":" + str(clientPort) + "\r\n\r\n"
-    
-    clientSocket.connect((serverName, clientPort))
+	filename = input('Nome da pagina: ')
+	httpGet = "GET /" + filename + " HTTP/1.1\r\nHost: " + str(serverName) + ":" + str(clientPort) + "\r\n\r\n"
 
-    clientSocket.send(httpGet.encode())
+	clientSocket.connect((serverName, clientPort))
 
-    res_echo = clientSocket.recv(dataLen)
-    print(res_echo.decode())
-    
-    clientSocket.close()
+	clientSocket.send(httpGet.encode())
+
+	res_echo = clientSocket.recv(dataLen)
+	print(res_echo.decode())
+	clientSocket.close()
 
 request()
 

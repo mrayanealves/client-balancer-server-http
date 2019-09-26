@@ -16,14 +16,25 @@ while 1:
 	print('Conectado ao balanceador:', addr)
 
 	# recebe mensagem do balanceador
-	sentence = connectionSocket.recv(1024)
+	request = connectionSocket.recv(1024).decode()
 
-	# converte a mensagem para letras maiusculas
-	capitalizedSentence = sentence.upper()
-	print('Nova mensagem a ser enviada: ', capitalizedSentence)
+	filename = request.split()[1]
+	f = open(filename[1:], 'r')
+	outputdata = f.read()
 
-	# envia de volta a mensagem modificada para o balanceador
-	connectionSocket.send(capitalizedSentence)
+	print("Arquivo encontrado")
+	headerLine = "HTTP/1.1 200 OK\r\n"
+	connectionSocket.send(headerLine.encode())
+	connectionSocket.send("\r\n".encode())
+
+	# Sends the file
+	for i in range(0, len(outputdata)):
+		connectionSocket.send(outputdata[i].encode())
+	connectionSocket.send("\r\n".encode())
+
+	# Terminates the conection
+	print("File sent.")
+	connectionSocket.close()
 	
 	# encerra conexão com o balanceador
 	connectionSocket.close()
